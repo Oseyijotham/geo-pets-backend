@@ -10,6 +10,10 @@ import { httpError } from "../helpers/httpError.js";
 //import { v4 as uuid4 } from "uuid";
 import { v2 as cloudinary } from "cloudinary";
 import sharp from "sharp";
+const { ACCESSKEY, PROJECTID } = process.env;
+import TheAuthAPI from "theauthapi";
+
+const theAuthAPI = new TheAuthAPI(ACCESSKEY);
 
 /*GO TO THE FOLDER CALLED "helpers", CLICK ON THE FILE CALLED ctrlWrapper.js AND CHECK OUT THE FUNCTION CALLED "ctrlWrapper". 
 IT IS BECAUSE OF THAT FUNCTION (ctrlWrapper) THAT WE DO NOT NEED TO ADD TRY AND CATCH BLOCKS IN THE CONTROLLER FUNCTIONS BELOW.
@@ -192,8 +196,41 @@ const updateUserAvatar = async (req, res) => {
 
   res.status(200).json({ avatarURL });
 };
+
+const retrieveAPIKey = async (req, res) => {
+  const { apiKey, apiKeyName, apiAccountId, apiCreationDate } = req.user;
+  res.json({ apiKey, apiKeyName, apiAccountId, apiCreationDate });
+};
+
+const createAPIkey = async (req, res) => {
+  const { name, customMetaData, customAccountId } = req.body;
+    const key = await theAuthAPI.apiKeys.createKey({
+      projectId: PROJECTID,
+      customMetaData: { metadata_val: customMetaData },
+      customAccountId: customAccountId,
+      name: name,
+    });
+    
+    const { _id } = req.user;
+    await User.findByIdAndUpdate(_id, {
+      apiKey: key.key,
+      apiKeyName: key.name,
+      apiAccountId: key.customAccountId,
+      apiCreationDate: key.createdAt,
+    });
+    res.json(key);
+  
+};
  
 
 
 // prettier-ignore
-export { signupUser, loginUser, logoutUser, getCurrentUsers, updateUserAvatar };
+export {
+  signupUser,
+  loginUser,
+  logoutUser,
+  getCurrentUsers,
+  updateUserAvatar,
+  createAPIkey,
+  retrieveAPIKey
+};

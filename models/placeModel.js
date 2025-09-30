@@ -1,0 +1,33 @@
+import { Schema, model } from "mongoose";
+
+const placesSchema = new Schema(
+  {
+    data: {
+      type: Object,
+      required: [true, "Set data for place"],
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    /*
+    avatarURL: {
+      type: String,
+      default: "https://airboxify-backend.onrender.com/avatars/unknownCustomer.png",
+    },*/
+    avatarURL: {
+      type: String,
+      default: "http://localhost:8001/avatars/unknownCustomer.png"
+    }
+  },
+  { versionKey: false }
+);
+
+const Place = model("place", placesSchema);
+
+export { Place };

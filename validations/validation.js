@@ -35,21 +35,50 @@ const loginValidation = Joi.object({
   }),
 });
 
-// validation for adding Customer Appointment
-const appointmentValidation = Joi.object({
-  name: Joi.string().max(30).required().messages({
-    "string.max": "Customer name cannot be longer than {#limit} characters",
-  }),
-  dueDate: Joi.date()
-    .iso() // Ensures ISO 8601 format (e.g., "2023-12-31T12:00:00Z")
-    .min("now") // Rejects past dates
+// validation for searching for a place
+const validCategories = [
+  "Animal Hospital",
+  "Animal Physical Therapy",
+  "Aquarium Services",
+  "Dog Walkers",
+  "Emergency Pet Hospital",
+  "Farrier Services",
+  "Holistic Animal Care",
+  "Pet Breeder",
+  "Pet Cemetery and Crematorium Services",
+  "Pet Groomer",
+  "Pet Hospice",
+  "Pet Insurance",
+  "Pet Photography",
+  "Pet Sitting",
+  "Pet Transportation",
+  "Pet Waste Removal",
+  "Pet Boarding",
+  "Pet Training",
+  "Dog Trainer",
+  "Horse Trainer",
+  "Animal Rescue Service",
+  "Animal Shelter",
+  "Horse Boarding",
+  "Pet Adoption",
+  "Veterinarian",
+];
+
+const findPlacesValidation = Joi.object({
+  category: Joi.string()
+    .valid(...validCategories)
     .required()
     .messages({
-      "date.base": "Due date must be a valid date",
-      "date.format":
-        "Due date must be in ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ)",
-      "date.min": "Due date cannot be in the past",
-      "any.required": "Due date is required",
+      "any.required": `"categorie" is required`,
+      "any.only": `"categorie" must be one of: ${validCategories.join(", ")}`,
+    }),
+
+  country: Joi.string()
+    .pattern(/^[A-Z]{2}$/)
+    .required()
+    .messages({
+      "any.required": `"country" is required`,
+      "string.pattern.base": `"country" must be a valid ISO 3166-1 Alpha-2 code (e.g., US, NG, GB)`,
     }),
 });
 
@@ -80,7 +109,7 @@ const updateAppointmentEmailValidation = Joi.object({
 export {
   updateAppointmentNameValidation,
   updateAppointmentEmailValidation,
-  appointmentValidation,
+  findPlacesValidation,
   favoriteValidation,
   signupValidation,
   loginValidation,

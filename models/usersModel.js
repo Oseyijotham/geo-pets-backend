@@ -23,14 +23,14 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Set phone for User"],
     },
-    avatarURL: {
-      type: String,
-      default: "https://airboxify-backend.onrender.com/avatars/unknownUser.png",
-    },
     /*avatarURL: {
       type: String,
-      default: "http://localhost:8000/avatars/unknownUser.png",
+      default: "https://airboxify-backend.onrender.com/avatars/unknownUser.png",
     },*/
+    avatarURL: {
+      type: String,
+      default: "http://localhost:8001/avatars/unknownUser.png",
+    },
     token: {
       type: String,
       default: null,
@@ -42,6 +42,22 @@ const userSchema = new Schema(
     groups: {
       type: Array,
       default: ["favourites"],
+    },
+    apiKey: {
+      type: String,
+      default: null,
+    },
+    apiKeyName: {
+      type: String,
+      default: null,
+    },
+    apiAccountId: {
+      type: String,
+      default: null,
+    },
+    apiCreationDate: {
+      type: String,
+      default: null,
     },
     /*verificationToken: {
       type: String,

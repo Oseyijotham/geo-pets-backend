@@ -1,7 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-import { router as contactsRouter } from "./routes/api/appointmentsRouter.js";
+import { router as placesRouter } from "./routes/api/placesRouter.js";
 import { router as usersRouter } from "./routes/api/usersRouter.js";
 
 const app = express();
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 // open http://localhost:3000/avatars/665c98dca10f7f28dc9eb8b2.jpeg on browser
 app.use(express.static("public"));
 
-app.use("/api/contacts", contactsRouter);
+app.use("/api/places", placesRouter);
 app.use("/api/users", usersRouter);
 
 // Handles errors caused by requests to non-existent routes
