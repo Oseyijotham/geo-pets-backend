@@ -73,7 +73,7 @@ const addPlaces = async (req, res) => {
   let result;
 
 
-  const place = await Place.findOne({ "data.id": id });
+  const place = await Place.findOne({ "data.id": id, _id });
   if (place) {
     const strVar = await Place.findOneAndDelete({ "data.id": id });
     result = {
