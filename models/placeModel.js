@@ -22,8 +22,9 @@ const placesSchema = new Schema(
     },*/
     avatarURL: {
       type: String,
-      default: "http://localhost:8001/avatars/unknownCustomer.png"
-    }
+      default:
+        "https://geo-pets-backend.onrender.com/avatars/unknownCustomer.png",
+    },
   },
   { versionKey: false }
 );

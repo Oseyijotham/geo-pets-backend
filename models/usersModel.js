@@ -29,7 +29,7 @@ const userSchema = new Schema(
     },*/
     avatarURL: {
       type: String,
-      default: "http://localhost:8001/avatars/unknownUser.png",
+      default: "https://geo-pets-backend.onrender.com/avatars/unknownUser.png",
     },
     token: {
       type: String,
