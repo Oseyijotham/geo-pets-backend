@@ -111,7 +111,7 @@ const loginUser = async (req, res) => {
 
     // Generate JWT token
     const payload = { id: user._id };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "40m" });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "30m" });
 
     // Update user with the new token
     await User.findByIdAndUpdate(user._id, { token });
