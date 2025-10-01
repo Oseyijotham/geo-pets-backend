@@ -9,7 +9,8 @@ import {
   deletePlaceById,
   updateAppointmentNameById,
   updateClientAvatar,
-  getCatPics
+  getCatPics,
+  getDogPics,
 } from "../../controllers/placesController.js";
 import { authenticateToken } from "../../middlewares/authenticateToken.js";
 import { upload } from "../../middlewares/upload.js";
@@ -23,7 +24,9 @@ router.post("/", authenticateToken, ctrlWrapper(findPlaces));
 
 router.post("/saveplace", authenticateToken, ctrlWrapper(addPlaces));
 
-router.get("/catpics", authenticateToken, ctrlWrapper(getCatPics));
+router.get("/catpics", ctrlWrapper(getCatPics));
+
+router.get("/dogpics", ctrlWrapper(getDogPics));
 
 router.get("/:appointmentId", authenticateToken, ctrlWrapper(getMyPlaceById));
 

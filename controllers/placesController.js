@@ -10,7 +10,7 @@ import fs from "fs/promises";
 import "dotenv/config";
 import { v2 as cloudinary } from "cloudinary";
 import sharp from "sharp";
-import { fetchPlaces,fetchCatPics } from "../API's/Api.js";
+import { fetchPlaces, fetchCatPics, fetchDogPics } from "../API's/Api.js";
 
 
 const {
@@ -72,10 +72,9 @@ const addPlaces = async (req, res) => {
   
   let result;
 
-
-  const place = await Place.findOne({ "data.id": id, _id });
+  const place = await Place.findOne({ "data.id": id, owner: _id });
   if (place) {
-    const strVar = await Place.findOneAndDelete({ "data.id": id });
+    const strVar = await Place.findOneAndDelete({ "data.id": id, owner: _id });
     result = {
       data: {
         id: strVar.data.id,
@@ -191,6 +190,14 @@ const getCatPics = async (req, res) => {
   res.status(201).json(result);
 };
 
+const getDogPics = async (req, res) => {
+  const response = await fetchDogPics();
+
+  const result = await response.json();
+
+  res.status(201).json(result);
+};
+
 
 
 
@@ -203,5 +210,6 @@ export {
   getMyPlaceById,
   deletePlaceById,
   updateAppointmentNameById,
-  getCatPics
+  getCatPics,
+  getDogPics,
 };
