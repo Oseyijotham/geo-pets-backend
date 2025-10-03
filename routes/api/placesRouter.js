@@ -11,6 +11,8 @@ import {
   updateClientAvatar,
   getCatPics,
   getDogPics,
+  getMoreCatPics,
+  getMoreDogPics
 } from "../../controllers/placesController.js";
 import { authenticateToken } from "../../middlewares/authenticateToken.js";
 import { upload } from "../../middlewares/upload.js";
@@ -27,6 +29,10 @@ router.post("/saveplace", authenticateToken, ctrlWrapper(addPlaces));
 router.get("/catpics", ctrlWrapper(getCatPics));
 
 router.get("/dogpics", ctrlWrapper(getDogPics));
+
+router.post("/morecatpics", ctrlWrapper(getMoreCatPics));
+
+router.post("/moredogpics", ctrlWrapper(getMoreDogPics));
 
 router.get("/:appointmentId", authenticateToken, ctrlWrapper(getMyPlaceById));
 

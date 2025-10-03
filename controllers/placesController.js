@@ -10,7 +10,7 @@ import fs from "fs/promises";
 import "dotenv/config";
 import { v2 as cloudinary } from "cloudinary";
 import sharp from "sharp";
-import { fetchPlaces, fetchCatPics, fetchDogPics } from "../API's/Api.js";
+import { fetchPlaces, fetchCatPics, fetchMoreCatPics, fetchDogPics, fetchMoreDogPics } from "../API's/Api.js";
 
 
 const {
@@ -190,12 +190,32 @@ const getCatPics = async (req, res) => {
   res.status(201).json(result);
 };
 
+const getMoreCatPics = async (req, res) => {
+  const response = await fetchMoreCatPics(req.body.pageNum);
+
+  console.log(req.body.pageNum);
+
+  const result = await response.json();
+
+  res.status(201).json({ moreCatPics: result, newPageNum: req.body.pageNum });
+};
+
 const getDogPics = async (req, res) => {
   const response = await fetchDogPics();
 
   const result = await response.json();
 
   res.status(201).json(result);
+};
+
+const getMoreDogPics = async (req, res) => {
+  const response = await fetchMoreDogPics(req.body.pageNum);
+
+  console.log(req.body.pageNum);
+
+  const result = await response.json();
+
+  res.status(201).json({ moreDogPics: result, newPageNum: req.body.pageNum });
 };
 
 
@@ -212,4 +232,6 @@ export {
   updateAppointmentNameById,
   getCatPics,
   getDogPics,
+  getMoreCatPics,
+  getMoreDogPics
 };
