@@ -1,8 +1,7 @@
 import { Place } from "../models/placeModel.js";
 import {
   findPlacesValidation,
-  updateAppointmentNameValidation,
-  updateAppointmentEmailValidation,
+  updatePlaceDetailsValidation,
 } from "../validations/validation.js";
 import { httpError } from "../helpers/httpError.js";
 import path from "path";
@@ -121,17 +120,17 @@ const getSavedPlaces = async (req, res) => {
   res.status(200).json(result);
 };
 
-const updateClientAvatar = async (req, res) => {
+const updatePlaceAvatar = async (req, res) => {
 
    if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
       throw httpError(400, 'Invalid image format, only PNG, JPG and JPEG are allowed'); // Only throws if neither PNG nor JPEG is chosen
     }
-  const { appointmentId } = req.params;
+  const { placeId } = req.params;
   const { path: oldPath, originalname } = req.file;
 
-  const filename = `${appointmentId}`; //creating a new unique filename for the image
+  const filename = `${placeId}`; //creating a new unique filename for the image
   const extension = path.extname(originalname);
-  const filenamePath = `${appointmentId}${extension}`;
+  const filenamePath = `${placeId}${extension}`;
 
   const newPath = path.join("public", "avatars", filenamePath);
 
@@ -157,20 +156,20 @@ const updateClientAvatar = async (req, res) => {
   //const avatarURL = `https://res.cloudinary.com/airboxify-cloud/image/upload/f_auto,q_auto/customerAvatars/${filename}.${result.format}`;
   //console.log(avatarURL);
 
-  await Place.findByIdAndUpdate(appointmentId, { avatarURL });
+  await Place.findByIdAndUpdate(placeId, { avatarURL });
   res.status(200).json({ avatarURL });
 };
 
 
-const updateAppointmentNameById = async (req, res) => {
+const updatePlaceDetailsById = async (req, res) => {
   // Validating name update
-  const { error } = updateAppointmentNameValidation.validate(req.body);
+  const { error } = updatePlaceDetailsValidation.validate(req.body);
   if (error) {
     throw httpError(400, error.details[0].message);
   }
 
-  const { appointmentId } = req.params;
-  const result = await Place.findByIdAndUpdate(appointmentId, req.body, {
+  const { placeId } = req.params;
+  const result = await Place.findByIdAndUpdate(placeId, req.body, {
     new: true,
   });
 
@@ -226,12 +225,12 @@ export {
   findPlaces,
   addPlaces,
   getSavedPlaces,
-  updateClientAvatar,
+  updatePlaceAvatar,
   getMyPlaceById,
   deletePlaceById,
-  updateAppointmentNameById,
+  updatePlaceDetailsById,
   getCatPics,
   getDogPics,
   getMoreCatPics,
-  getMoreDogPics
+  getMoreDogPics,
 };

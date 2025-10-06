@@ -82,35 +82,18 @@ const findPlacesValidation = Joi.object({
     }),
 });
 
-// validation for updating favorite field
-const favoriteValidation = Joi.object({
-  favorite: Joi.bool().required(),
-});
 
-// validation for updating Customer name
-const updateAppointmentNameValidation = Joi.object({
-  name: Joi.string().max(30).required().messages({
+// validation for updating Place Details
+const updatePlaceDetailsValidation = Joi.object({
+  description: Joi.string().max(60).required().messages({
     "string.max": "Customer name cannot be longer than {#limit} characters",
   }),
 });
 
-// validation for updating a Customer email
-const updateAppointmentEmailValidation = Joi.object({
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "uk"] } })
-    .required()
-    .messages({
-      "any.required": "Missing required email field",
-      "string.email": "Invalid email format",
-    }),
-});
-
 // prettier-ignore
 export {
-  updateAppointmentNameValidation,
-  updateAppointmentEmailValidation,
+  updatePlaceDetailsValidation,
   findPlacesValidation,
-  favoriteValidation,
   signupValidation,
   loginValidation,
 };

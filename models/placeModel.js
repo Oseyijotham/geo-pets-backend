@@ -25,6 +25,10 @@ const placesSchema = new Schema(
       default:
         "https://geo-pets-backend.onrender.com/avatars/unknownCustomer.png",
     },
+    description: {
+      type: String,
+      default: "Enter place description",
+    },
   },
   { versionKey: false }
 );
