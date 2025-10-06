@@ -36,7 +36,7 @@ router.post("/moredogpics", ctrlWrapper(getMoreDogPics));
 
 router.get("/:appointmentId", authenticateToken, ctrlWrapper(getMyPlaceById));
 
-router.delete("/:appointmentId", authenticateToken, ctrlWrapper(deletePlaceById));
+router.delete("/deletePlaces/:placeId", authenticateToken, ctrlWrapper(deletePlaceById));
 
 router.patch("/avatars/:placeId", authenticateToken, upload.single("avatar"), ctrlWrapper(updatePlaceAvatar));
 

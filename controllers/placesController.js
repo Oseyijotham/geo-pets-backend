@@ -80,6 +80,13 @@ const addPlaces = async (req, res) => {
         status: false,
       },
     };
+
+    const filename = `${appointmentId}`; //Getting the filename for the image
+    const publicId = "placeAvatars/" + filename;
+    await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image", // or "raw" if it's not an image
+      invalidate: true, // optional: tells CDN to remove cached copies
+    });
   }
   
   else {
@@ -94,22 +101,33 @@ const addPlaces = async (req, res) => {
 const deletePlaceById = async (req, res) => {
   const { _id } = req.user;
   //console.log(req.params);
-  const { appointmentId } = req.params;
+  const { placeId } = req.params;
 
-  const deleted = await Place.findByIdAndDelete(appointmentId);
+  let result;
 
-  if (!deleted) {
+  const myDeleted = await Place.findByIdAndDelete(placeId);
+
+  if (myDeleted) {
+  result = {
+    data: {
+      id: myDeleted.data.id,
+      status: false,
+    },
+  };
+  }
+
+  if (!myDeleted) {
     throw httpError(404, "Resource not found");
   }
-  const result = await Place.find({ owner: _id }).sort({ _id: -1 });
+  const myResult = await Place.find({ owner: _id }).sort({ _id: -1 });
 
-  const filename = `${appointmentId}`; //Getting the filename for the image
+  const filename = `${placeId}`; //Getting the filename for the image
   const publicId = "placeAvatars/" + filename;
   await cloudinary.uploader.destroy(publicId, {
     resource_type: "image", // or "raw" if it's not an image
     invalidate: true, // optional: tells CDN to remove cached copies
   });
-  res.json(result);
+  res.json({ result: myResult, deleted: result });
 };
 
 const getSavedPlaces = async (req, res) => {
