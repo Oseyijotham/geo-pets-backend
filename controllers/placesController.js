@@ -73,6 +73,12 @@ const addPlaces = async (req, res) => {
 
   const place = await Place.findOne({ "data.id": id, owner: _id });
   if (place) {
+    const filename = `${place._id}`; //Getting the filename for the image
+    const publicId = "placeAvatars/" + filename;
+    await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image", // or "raw" if it's not an image
+      invalidate: true, // optional: tells CDN to remove cached copies
+    });
     const strVar = await Place.findOneAndDelete({ "data.id": id, owner: _id });
     result = {
       data: {
@@ -81,12 +87,7 @@ const addPlaces = async (req, res) => {
       },
     };
 
-    const filename = `${appointmentId}`; //Getting the filename for the image
-    const publicId = "placeAvatars/" + filename;
-    await cloudinary.uploader.destroy(publicId, {
-      resource_type: "image", // or "raw" if it's not an image
-      invalidate: true, // optional: tells CDN to remove cached copies
-    });
+    
   }
   
   else {
