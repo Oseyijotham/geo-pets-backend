@@ -34,7 +34,7 @@ router.post("/morecatpics", ctrlWrapper(getMoreCatPics));
 
 router.post("/moredogpics", ctrlWrapper(getMoreDogPics));
 
-router.get("/:appointmentId", authenticateToken, ctrlWrapper(getMyPlaceById));
+router.get("/getOnePlace/:placeId", authenticateToken, ctrlWrapper(getMyPlaceById));
 
 router.delete("/deletePlaces/:placeId", authenticateToken, ctrlWrapper(deletePlaceById));
 

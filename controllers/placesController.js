@@ -54,11 +54,11 @@ const findPlaces = async (req, res) => {
 };
 
 const getMyPlaceById = async (req, res) => {
-  const { appointmentId } = req.params;
-  const result = await Place.findById(appointmentId);
+  const { placeId } = req.params;
+  const result = await Place.findById(placeId);
 
   if (!result) {
-    throw httpError(404, "Appointment Details Not Found");
+    throw httpError(404, "Place Details Not Found");
   }
 
   res.status(200).json(result);
